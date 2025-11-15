@@ -1,0 +1,17 @@
+version: 0.1
+default:
+  global:
+    parameters:
+      stack_name: aptchain-hackathon
+      region: us-east-1
+  deploy:
+    parameters:
+      capabilities: CAPABILITY_IAM
+      confirm_changeset: true
+      parameter_overrides:
+        - AWSAccessKey=ASIASJRIFXKJHAZTFF5E
+        - AWSSecretKey=5axiqr+tM99mReqylbynjjR/jtAWrQyqFrADfZ4D
+        - AWSSessionToken=IQoJb3JpZ2luX2VjEJj//////////wEaCXVzLWVhc3QtMSJGMEQCIHifIsU7ys0njWs4sOlsQjCWxeu8L/PJfvrFN0xOWlnZAiAeqcsoBNt6bF8NmAfwNfLiscS5Oy7n/+gUD/JZ0ZvcDSqZAghhEAEaDDE1NzkyNDMwOTY1MCIMLadqtwQD6okIOfYaKvYBe5fVfVEUUXPPJlL8NBzYpdRkJMGKXZc5GvNqvBPITYnpBObiqsv6xnIWuAW6JfC2JAsTCyZ3nb/wEV7/lyI9T+vHd0KtfBxQMiWSsgwqW75BxC1RZKxI94+a10OQhwgJzkZiKFn4ts8LQTE1FbFQSOudhWYTM84gGka7ij2CTuKgJD9/t6Zmke4MciKD9fJSz2TYZdSyJO5JrPfOb5ZqBZfTgivIaurQKr/wU4OM3l18bv6SUXwaaJgu9yNN6HkXyVY6/nC2DnZXU0sd9OhL1GcLagEw0EnWxszmVcbhPjW6urfmvzRfokWOUL16b1YUDH9FOZVmMJK728gGOp4Bv0HEOC/SJuKEWHBChky79Hf6OWlS340PlMjcBoH6gVHjeVRFIndQPSE8MXrIJoYKWqDfZuxys1HVUrx+4qZbVpUHE/JGql66xZIkvxXrluiBl8WMh/AQ6CL66vHtgN5l/GUaHfu3V1/22lgz+Vg1ugLoOIJuJcwcPwgnfpu1nywpZlxhQgfTDiVey5GaDROGARYCSCPFDxjiauBqlI8=
+        - AlchemyURL=https://eth-mainnet.g.alchemy.com/v2/qogfTapB42LIrhsjp6xcT
+        - EthPrivateKey=0xa5e045215c59e50e0a8b2e97d14717bca9356ef221ed4e1637aa7c8d43196e47
+        - ContractAddress=your_contract_address

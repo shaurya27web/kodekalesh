@@ -1,0 +1,94 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  Stage:
+    Type: String
+    Default: prod
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+
+Resources:
+  AptChainFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: index.handler
+      Runtime: nodejs18.x
+      Timeout: 30
+      MemorySize: 512
+      Environment:
+        Variables:
+          NODE_ENV: production
+          AWS_ACCESS_KEY_ID: !Ref AWSAccessKey
+          AWS_SECRET_ACCESS_KEY: !Ref AWSSecretKey
+          AWS_SESSION_TOKEN: !Ref AWSSessionToken
+          AWS_REGION: !Sub ${AWS::Region}
+          AWS_BUCKET_NAME: !Ref ContentBucket
+          ALCHEMY_API_URL: !Ref AlchemyURL
+          ETH_PRIVATE_KEY: !Ref EthPrivateKey
+          ETH_CONTRACT_ADDRESS: !Ref ContractAddress
+      Events:
+        Health:
+          Type: Api
+          Properties:
+            Path: /health
+            Method: GET
+        Generate:
+          Type: Api
+          Properties:
+            Path: /generate
+            Method: POST
+        Verify:
+          Type: Api
+          Properties:
+            Path: /verify
+            Method: POST
+      Policies:
+        - S3CrudPolicy:
+            BucketName: !Ref ContentBucket
+
+  ContentBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub aptchain-content-${AWS::AccountId}
+      AccessControl: PublicRead
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: ["*"]
+            AllowedMethods: [GET, PUT, POST]
+            AllowedOrigins: ["*"]
+            MaxAge: 3000
+
+Parameters:
+  AWSAccessKey:
+    Type: String
+    Description: AWS Access Key ID
+  AWSSecretKey:
+    Type: String
+    Description: AWS Secret Access Key
+  AWSSessionToken:
+    Type: String
+    Description: AWS Session Token
+  AlchemyURL:
+    Type: String
+    Description: Alchemy Project URL
+  EthPrivateKey:
+    Type: String
+    Description: Ethereum Private Key
+  ContractAddress:
+    Type: String
+    Description: Ethereum Contract Address
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway Base URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  BucketName:
+    Description: "S3 Bucket for Content Storage"
+    Value: !Ref ContentBucket
+  HealthEndpoint:
+    Description: "Health Check Endpoint"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/health"
